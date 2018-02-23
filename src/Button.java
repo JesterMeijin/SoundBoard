@@ -78,14 +78,16 @@ public class Button extends JButton implements MouseListener {
         String ext = "." + filename.substring(filename.lastIndexOf(".")+1);
 
         String name = JOptionPane.showInputDialog(frame, "What's the new song name ?", "Rename Song", JOptionPane.QUESTION_MESSAGE);
-        this.setText(name);
-        this.filename = "song/" + name + ext;
-        this.fileBasename = name  + ext;
+        if ((name != null) && (name.length() > 0)){
+            this.setText(name);
+            this.filename = "song/" + name + ext;
+            this.fileBasename = name + ext;
 
-        if(file.renameTo(new File("song/" + name  + ext)))
-            System.out.println("Rename successful");
-        else
-            System.out.println("Rename failed");
+            if (file.renameTo(new File("song/" + name + ext)))
+                System.out.println("Rename successful");
+            else
+                System.out.println("Rename failed");
+        }
     }
 
     public void removeSound(String filename){

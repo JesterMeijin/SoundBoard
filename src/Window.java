@@ -49,9 +49,14 @@ public class Window extends JFrame implements ActionListener {
 
         if(returnVal == JFileChooser.APPROVE_OPTION){
             System.out.println("You chose to open this file: " + fc.getSelectedFile().getName());
-            Button songButton = addSong(fc.getSelectedFile().getName().replaceFirst("[.][^.]+$", ""), fc.getSelectedFile().getName(), fc.getSelectedFile().getAbsolutePath());
-            CopyBinaryFileWithStreams( fc.getSelectedFile().getAbsolutePath(), fc.getSelectedFile().getName());
-            songButton.editFilename("song/" + fc.getSelectedFile().getName());
+            boolean check = new File("song/", fc.getSelectedFile().getName()).exists();
+            if (!check) {
+                Button songButton = addSong(fc.getSelectedFile().getName().replaceFirst("[.][^.]+$", ""), fc.getSelectedFile().getName(), fc.getSelectedFile().getAbsolutePath());
+                CopyBinaryFileWithStreams( fc.getSelectedFile().getAbsolutePath(), fc.getSelectedFile().getName());
+                songButton.editFilename("song/" + fc.getSelectedFile().getName());
+            } else {
+                JOptionPane.showMessageDialog(this, "The song's file has already been added to the SoundBoard !", " Import Error ", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
