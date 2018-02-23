@@ -13,7 +13,6 @@ public class Window extends JFrame implements ActionListener {
     private GridBagLayout mainLayout = new GridBagLayout();
     private GridBagConstraints layoutConstraints = new GridBagConstraints();
     private JButton addButton = new JButton("+");
-    private int songNumber = 0;
 
     public Window(){
 

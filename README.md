@@ -3,6 +3,5 @@
 Can only play .wav sound file at the moment !
 
 ## TODO 
-+ Rename feature
-+ Delete feature
++ Add Drag and Drop features
 + Add audio format support
