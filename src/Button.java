@@ -1,6 +1,9 @@
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.io.*;
+import javazoom.jl.converter.Converter;
+import javazoom.jl.decoder.JavaLayerException;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -54,9 +57,24 @@ public class Button extends JButton implements MouseListener {
 
     public void playSound (String filename){
         try {
+            String ext = "." + filename.substring(filename.lastIndexOf(".")+1);
+            String soundToPlay;
+            if (ext.equals(".mp3")){
+                File file = new File(filename);
+                Converter converter = new Converter();
+                soundToPlay = "song/" + file.getName().replaceFirst("[.][^.]+$", ".wav");
+                converter.convert(filename, soundToPlay);
+                if(file.delete())
+                    System.out.println(file.getName() + " is deleted!");
+                else
+                    System.out.println("Delete operation is failed.");
+                this.filename = soundToPlay;
+            } else {
+                soundToPlay = filename;
+            }
             // Open an audio input stream.
-            File soundFile = new File(filename); //you could also get the sound file with an URL
-            System.out.println("Playing sound : " + filename);
+            File soundFile = new File(soundToPlay); //you could also get the sound file with an URL
+            System.out.println("Playing sound : " + soundToPlay);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
             // Get a sound clip resource.
             Clip clip = AudioSystem.getClip();
@@ -68,6 +86,8 @@ public class Button extends JButton implements MouseListener {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (JavaLayerException e){
             e.printStackTrace();
         }
     }

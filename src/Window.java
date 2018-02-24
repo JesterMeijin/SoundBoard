@@ -8,7 +8,7 @@ import java.io.*;
 public class Window extends JFrame implements ActionListener {
 
     private JFileChooser fc = new JFileChooser();
-    private FileNameExtensionFilter filter = new FileNameExtensionFilter("Audio files", "mp3", "wav", "ogg", "aiff", "voc", "mid");
+    private FileNameExtensionFilter filter = new FileNameExtensionFilter("Audio files", "wav", "aiff", "au", "mid", "midi", "mp3");
     private JPanel mainPanel = new JPanel();
     private GridBagLayout mainLayout = new GridBagLayout();
     private GridBagConstraints layoutConstraints = new GridBagConstraints();
