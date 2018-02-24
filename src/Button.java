@@ -97,7 +97,7 @@ public class Button extends JButton implements MouseListener {
         File file = new File(filename);
         String ext = "." + filename.substring(filename.lastIndexOf(".")+1);
 
-        String name = JOptionPane.showInputDialog(frame, "What's the new song name ?", "Rename Song", JOptionPane.QUESTION_MESSAGE);
+        String name = JOptionPane.showInputDialog(frame, "What's the new song name ?", "Rename Sound", JOptionPane.QUESTION_MESSAGE);
         if ((name != null) && (name.length() > 0)){
             this.setText(name);
             this.filename = "song/" + name + ext;
@@ -111,13 +111,16 @@ public class Button extends JButton implements MouseListener {
     }
 
     public void removeSound(String filename){
-        File file = new File(filename);
-        if(file.delete())
-            System.out.println(file.getName() + " is deleted!");
-        else
-            System.out.println("Delete operation is failed.");
-        this.setVisible(false);
-        this.getParent().revalidate();
-        this.getParent().remove(this);
+        int input = JOptionPane.showConfirmDialog(this, "Do you really want to remove the sound ?\n Warning : It will delete the sound from the song folder too !", " Delete Sound ", JOptionPane.YES_NO_OPTION);
+        if (input == JOptionPane.OK_OPTION){
+            File file = new File(filename);
+            if(file.delete())
+                System.out.println(file.getName() + " is deleted!");
+            else
+                System.out.println("Delete operation is failed.");
+            this.setVisible(false);
+            this.getParent().revalidate();
+            this.getParent().remove(this);
+        }
     }
 }

@@ -51,7 +51,7 @@ public class Window extends JFrame implements ActionListener {
             System.out.println("You chose to open this file: " + fc.getSelectedFile().getName());
             boolean check = new File("song/", fc.getSelectedFile().getName()).exists();
             if (!check) {
-                Button songButton = addSong(fc.getSelectedFile().getName().replaceFirst("[.][^.]+$", ""), fc.getSelectedFile().getName(), fc.getSelectedFile().getAbsolutePath());
+                Button songButton = addSound(fc.getSelectedFile().getName().replaceFirst("[.][^.]+$", ""), fc.getSelectedFile().getName(), fc.getSelectedFile().getAbsolutePath());
                 CopyBinaryFileWithStreams( fc.getSelectedFile().getAbsolutePath(), fc.getSelectedFile().getName());
                 songButton.editFilename("song/" + fc.getSelectedFile().getName());
             } else {
@@ -60,7 +60,7 @@ public class Window extends JFrame implements ActionListener {
         }
     }
 
-    public Button addSong (String displayName, String fileBasename, String filename){
+    public Button addSound(String displayName, String fileBasename, String filename){
         Button songButton = new Button(displayName, fileBasename, filename);
         mainLayout.setConstraints(songButton, layoutConstraints);
         mainPanel.add(songButton);
@@ -74,7 +74,7 @@ public class Window extends JFrame implements ActionListener {
             if (fileEntry.isDirectory()) {
                 initSongList();
             } else {
-                addSong(fileEntry.getName().replaceFirst("[.][^.]+$", ""), fileEntry.getName(), "song/" + fileEntry.getName());
+                addSound(fileEntry.getName().replaceFirst("[.][^.]+$", ""), fileEntry.getName(), "song/" + fileEntry.getName());
             }
         }
     }

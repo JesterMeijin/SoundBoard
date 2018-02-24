@@ -32,7 +32,7 @@ After downloading the Soundboard and have JRE 8 or upper installed on your compu
 
 ## Version
 
-SoundBoard Alpha 0.2
+SoundBoard Alpha 0.2.1
 
 ## Authors
 
