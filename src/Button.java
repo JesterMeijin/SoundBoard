@@ -10,11 +10,15 @@ import java.awt.event.MouseListener;
 public class Button extends JButton implements MouseListener {
     private String filename;
     private String fileBasename;
+    private String ext;
+    private PlaySound sound;
 
     public Button(String displayName, String fileBasename, String filename){
         super(displayName);
         this.filename = filename;
         this.fileBasename = fileBasename;
+        this.ext = "." + filename.substring(filename.lastIndexOf(".") + 1);
+        this.sound = new PlaySound(this.filename);
         this.addMouseListener(this);
     }
 
@@ -34,6 +38,14 @@ public class Button extends JButton implements MouseListener {
         return this.fileBasename;
     }
 
+    public String readExt (){
+        return this.ext;
+    }
+
+    public void updateSong(){
+        sound = new PlaySound(this.filename);
+    }
+
     public void mousePressed(MouseEvent e) {
     }
 
@@ -47,55 +59,21 @@ public class Button extends JButton implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-        if (SwingUtilities.isLeftMouseButton(e))
-            playSound(filename);
+        if (SwingUtilities.isLeftMouseButton(e)){
+            if (sound.readClip().isRunning())
+                sound.stopSound();
+            else
+                sound.startSound();
+        }
         if (SwingUtilities.isRightMouseButton(e))
             renameSound(filename);
         if (SwingUtilities.isMiddleMouseButton(e))
             removeSound(filename);
     }
 
-    public void playSound (String filename){
-        try {
-            String ext = "." + filename.substring(filename.lastIndexOf(".")+1);
-            String soundToPlay;
-            if (ext.equals(".mp3")){
-                File file = new File(filename);
-                Converter converter = new Converter();
-                soundToPlay = "song/" + file.getName().replaceFirst("[.][^.]+$", ".wav");
-                converter.convert(filename, soundToPlay);
-                if(file.delete())
-                    System.out.println(file.getName() + " is deleted!");
-                else
-                    System.out.println("Delete operation is failed.");
-                this.filename = soundToPlay;
-            } else {
-                soundToPlay = filename;
-            }
-            // Open an audio input stream.
-            File soundFile = new File(soundToPlay); //you could also get the sound file with an URL
-            System.out.println("Playing sound : " + soundToPlay);
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-            // Get a sound clip resource.
-            Clip clip = AudioSystem.getClip();
-            // Open audio clip and load samples from the audio input stream.
-            clip.open(audioIn);
-            clip.start();
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        } catch (JavaLayerException e){
-            e.printStackTrace();
-        }
-    }
-
     public void renameSound(String filename){
         JFrame frame = new JFrame();
         File file = new File(filename);
-        String ext = "." + filename.substring(filename.lastIndexOf(".")+1);
 
         String name = JOptionPane.showInputDialog(frame, "What's the new song name ?", "Rename Sound", JOptionPane.QUESTION_MESSAGE);
         if ((name != null) && (name.length() > 0)){
@@ -107,11 +85,14 @@ public class Button extends JButton implements MouseListener {
                 System.out.println("Rename successful");
             else
                 System.out.println("Rename failed");
+
+            this.updateSong();
         }
     }
 
     public void removeSound(String filename){
-        int input = JOptionPane.showConfirmDialog(this, "Do you really want to remove the sound ?\n Warning : It will delete the sound from the song folder too !", " Delete Sound ", JOptionPane.YES_NO_OPTION);
+        JFrame frame = new JFrame();
+        int input = JOptionPane.showConfirmDialog(frame, "Do you really want to remove the sound ?\n Warning : It will delete the sound from the song folder too !", " Delete Sound ", JOptionPane.YES_NO_OPTION);
         if (input == JOptionPane.OK_OPTION){
             File file = new File(filename);
             if(file.delete())

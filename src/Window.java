@@ -1,3 +1,6 @@
+import javazoom.jl.converter.Converter;
+import javazoom.jl.decoder.JavaLayerException;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -54,8 +57,11 @@ public class Window extends JFrame implements ActionListener {
                 Button songButton = addSound(fc.getSelectedFile().getName().replaceFirst("[.][^.]+$", ""), fc.getSelectedFile().getName(), fc.getSelectedFile().getAbsolutePath());
                 CopyBinaryFileWithStreams( fc.getSelectedFile().getAbsolutePath(), fc.getSelectedFile().getName());
                 songButton.editFilename("song/" + fc.getSelectedFile().getName());
+                if (songButton.readExt().equals(".mp3"))
+                    convertMp3toWav(songButton);
             } else {
-                JOptionPane.showMessageDialog(this, "The song's file has already been added to the SoundBoard !", " Import Error ", JOptionPane.ERROR_MESSAGE);
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame, "The song's file has already been added to the SoundBoard !", " Import Error ", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -76,6 +82,24 @@ public class Window extends JFrame implements ActionListener {
             } else {
                 addSound(fileEntry.getName().replaceFirst("[.][^.]+$", ""), fileEntry.getName(), "song/" + fileEntry.getName());
             }
+        }
+    }
+
+    public void convertMp3toWav(Button songButton){
+        try {
+            String newFilename;
+            File file = new File(songButton.readFilename());
+            Converter converter = new Converter();
+            newFilename = "song/" + file.getName().replaceFirst("[.][^.]+$", ".wav");
+            converter.convert(songButton.readFilename(), newFilename);
+            if (file.delete())
+                System.out.println(file.getName() + " is deleted!");
+            else
+                System.out.println("Delete operation is failed.");
+            songButton.editFilename(newFilename);
+            songButton.updateSong();
+        } catch (JavaLayerException e){
+            e.printStackTrace();
         }
     }
 
@@ -120,5 +144,4 @@ public class Window extends JFrame implements ActionListener {
             }
         }
     }
-
 }
