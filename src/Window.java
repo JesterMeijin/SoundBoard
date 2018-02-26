@@ -1,6 +1,6 @@
 import javazoom.jl.converter.Converter;
 import javazoom.jl.decoder.JavaLayerException;
-
+import mdlaf.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -13,33 +13,63 @@ public class Window extends JFrame implements ActionListener {
     private JFileChooser fc = new JFileChooser();
     private FileNameExtensionFilter filter = new FileNameExtensionFilter("Audio files", "wav", "aiff", "au", "mid", "midi", "mp3");
     private JPanel mainPanel = new JPanel();
+    private JPanel buttonPanel = new JPanel();
+    private JScrollPane scrollPane = new JScrollPane(buttonPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    private JScrollBar bar = scrollPane.getVerticalScrollBar();
     private GridBagLayout mainLayout = new GridBagLayout();
+    private GridLayout buttonLayout = new GridLayout(0,1);
     private GridBagConstraints layoutConstraints = new GridBagConstraints();
+    private GridBagConstraints addButtonLayoutConstraints = new GridBagConstraints();
     private JButton addButton = new JButton("+");
+    private MaterialUIMovement animate = new MaterialUIMovement (new Color (224,224,224), 5, 1000 / 30);
+    private MaterialUIMovement animate2 = new MaterialUIMovement (new Color (189,189,189), 5, 1000 / 30);
 
     public Window(){
 
         //Set window properties
         this.setTitle("SoundBoard");
-        this.setSize(720, 480);
+        this.setSize(400, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        try {
+            UIManager.setLookAndFeel (new MaterialLookAndFeel ());
+        }
+        catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace ();
+        }
+
+        //Set addButton layout constraints
+        addButtonLayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
+        mainLayout.setConstraints(addButton, addButtonLayoutConstraints);
 
         //Set the layout constraints
         layoutConstraints.fill = GridBagConstraints.BOTH;
         layoutConstraints.weightx = 1;
         layoutConstraints.weighty = 1;
-        layoutConstraints.gridx = 1;
-        mainLayout.setConstraints(addButton, layoutConstraints);
+        layoutConstraints.gridy = 1;
+        mainLayout.setConstraints(scrollPane, layoutConstraints);
 
-        //Set the panel
-        mainPanel.setBackground(Color.BLACK);
+        //Set mainPanel
+        mainPanel.setBackground(new Color (238,238,238));
         mainPanel.setLayout(mainLayout);
         this.setContentPane(mainPanel);
 
         //Set the add button
+        addButton.setBackground(new Color (224,224,224));
+        addButton.setFont(new Font("Roboto", Font.BOLD, 30));
+        addButton.setForeground(new Color (0,230,118));
+        addButton.setBorderPainted(false);
         addButton.addActionListener(this);
         mainPanel.add(addButton);
+        animate2.add(addButton);
+
+        //Set the buttonPanel / scrollPane
+        bar.setPreferredSize(new Dimension(0, 0));
+        bar.setUnitIncrement(16);
+        buttonPanel.setBackground(new Color (238,238,238));
+        buttonPanel.setPreferredSize(new Dimension(0, 500));
+        buttonPanel.setLayout(buttonLayout);
+        mainPanel.add(scrollPane);
 
         //Set the window visible
         this.setVisible(true);
@@ -52,8 +82,9 @@ public class Window extends JFrame implements ActionListener {
 
         if(returnVal == JFileChooser.APPROVE_OPTION){
             System.out.println("You chose to open this file: " + fc.getSelectedFile().getName());
+            boolean checkMP3 = new File("song/", fc.getSelectedFile().getName().replaceFirst("[.][^.]+$", ".wav")).exists();
             boolean check = new File("song/", fc.getSelectedFile().getName()).exists();
-            if (!check) {
+            if (!check && !checkMP3) {
                 Button songButton = addSound(fc.getSelectedFile().getName().replaceFirst("[.][^.]+$", ""), fc.getSelectedFile().getName(), fc.getSelectedFile().getAbsolutePath());
                 CopyBinaryFileWithStreams( fc.getSelectedFile().getAbsolutePath(), fc.getSelectedFile().getName());
                 songButton.editFilename("song/" + fc.getSelectedFile().getName());
@@ -68,9 +99,9 @@ public class Window extends JFrame implements ActionListener {
 
     public Button addSound(String displayName, String fileBasename, String filename){
         Button songButton = new Button(displayName, fileBasename, filename);
-        mainLayout.setConstraints(songButton, layoutConstraints);
-        mainPanel.add(songButton);
-        mainPanel.revalidate();
+        buttonPanel.add(songButton);
+        animate.add(songButton);
+        buttonPanel.revalidate();
         return songButton;
     }
 

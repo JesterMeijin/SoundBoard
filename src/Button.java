@@ -1,8 +1,6 @@
-import javax.sound.sampled.*;
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
-import javazoom.jl.converter.Converter;
-import javazoom.jl.decoder.JavaLayerException;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,6 +13,9 @@ public class Button extends JButton implements MouseListener {
 
     public Button(String displayName, String fileBasename, String filename){
         super(displayName);
+        this.setBackground(new Color(238,238,238));
+        this.setFont(new Font("Roboto", Font.PLAIN, 20));
+        this.setForeground(Color.BLACK);
         this.filename = filename;
         this.fileBasename = fileBasename;
         this.ext = "." + filename.substring(filename.lastIndexOf(".") + 1);
@@ -72,6 +73,7 @@ public class Button extends JButton implements MouseListener {
     }
 
     public void renameSound(String filename){
+        sound.stopSound();
         JFrame frame = new JFrame();
         File file = new File(filename);
 
@@ -91,7 +93,9 @@ public class Button extends JButton implements MouseListener {
     }
 
     public void removeSound(String filename){
+        sound.stopSound();
         JFrame frame = new JFrame();
+
         int input = JOptionPane.showConfirmDialog(frame, "Do you really want to remove the sound ?\n Warning : It will delete the sound from the song folder too !", " Delete Sound ", JOptionPane.YES_NO_OPTION);
         if (input == JOptionPane.OK_OPTION){
             File file = new File(filename);
