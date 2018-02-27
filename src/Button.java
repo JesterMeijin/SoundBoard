@@ -60,16 +60,18 @@ public class Button extends JButton implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-        if (SwingUtilities.isLeftMouseButton(e)){
-            if (sound.readClip().isRunning())
-                sound.stopSound();
-            else
-                sound.startSound();
+        if (this.isEnabled()){
+            if (SwingUtilities.isLeftMouseButton(e)){
+                if (sound.readClip().isRunning())
+                    sound.stopSound();
+                else
+                    sound.startSound();
+            }
+            if (SwingUtilities.isRightMouseButton(e))
+                renameSound(filename);
+            if (SwingUtilities.isMiddleMouseButton(e))
+                removeSound(filename);
         }
-        if (SwingUtilities.isRightMouseButton(e))
-            renameSound(filename);
-        if (SwingUtilities.isMiddleMouseButton(e))
-            removeSound(filename);
     }
 
     public void renameSound(String filename){
@@ -105,7 +107,7 @@ public class Button extends JButton implements MouseListener {
                 System.out.println("Delete operation is failed.");
             this.setVisible(false);
             this.getParent().revalidate();
-            this.getParent().remove(this);
+            //this.getParent().remove(this);
         }
     }
 }

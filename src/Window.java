@@ -3,9 +3,9 @@ import javazoom.jl.decoder.JavaLayerException;
 import mdlaf.*;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.*;
 
 public class Window extends JFrame implements ActionListener {
@@ -14,12 +14,15 @@ public class Window extends JFrame implements ActionListener {
     private FileNameExtensionFilter filter = new FileNameExtensionFilter("Audio files", "wav", "aiff", "au", "mid", "midi", "mp3");
     private JPanel mainPanel = new JPanel();
     private JPanel buttonPanel = new JPanel();
+    private JPanel topPanel = new JPanel();
+    private JTextField search = new JTextField("Search");
     private JScrollPane scrollPane = new JScrollPane(buttonPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private JScrollBar bar = scrollPane.getVerticalScrollBar();
     private GridBagLayout mainLayout = new GridBagLayout();
     private GridLayout buttonLayout = new GridLayout(0,1);
+    private GridBagLayout topLayout = new GridBagLayout();
     private GridBagConstraints layoutConstraints = new GridBagConstraints();
-    private GridBagConstraints addButtonLayoutConstraints = new GridBagConstraints();
+    private GridBagConstraints topLayoutConstraints = new GridBagConstraints();
     private JButton addButton = new JButton("+");
     private MaterialUIMovement animate = new MaterialUIMovement (new Color (224,224,224), 5, 1000 / 30);
     private MaterialUIMovement animate2 = new MaterialUIMovement (new Color (0,191,165), 5, 1000 / 30);
@@ -38,9 +41,11 @@ public class Window extends JFrame implements ActionListener {
             e.printStackTrace ();
         }
 
-        //Set addButton layout constraints
-        addButtonLayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
-        mainLayout.setConstraints(addButton, addButtonLayoutConstraints);
+        // Set addButton layout constraints
+        topLayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
+        topLayoutConstraints.weightx = 1;
+        mainLayout.setConstraints(topPanel, topLayoutConstraints);
+        topLayout.setConstraints(search, topLayoutConstraints);
 
         //Set the layout constraints
         layoutConstraints.fill = GridBagConstraints.BOTH;
@@ -54,6 +59,40 @@ public class Window extends JFrame implements ActionListener {
         mainPanel.setLayout(mainLayout);
         this.setContentPane(mainPanel);
 
+        //Set topPanel
+        topPanel.setLayout(topLayout);
+        topPanel.setBackground(new Color (29,233,182));
+        topPanel.add(search);
+        topPanel.add(addButton);
+        mainPanel.add(topPanel);
+
+        //Set Search Bar
+        search.setBorder(null);
+        search.setBackground(new Color (29,233,182));
+        search.setFont(new Font("Roboto Medium", Font.PLAIN, 20));
+        search.setHorizontalAlignment(JTextField.CENTER);
+        search.setForeground(Color.WHITE);
+        search.addFocusListener(new FocusAdapter(){
+            public void focusGained(FocusEvent e){
+                search.setText("");
+            }
+            public void focusLost(FocusEvent e){
+                if (search.getText().equals(""))
+                    search.setText("Search");
+            }
+        });
+        search.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                dynamicSearch(search.getText());
+            }
+            public void removeUpdate(DocumentEvent e) {
+                dynamicSearch(search.getText());
+            }
+            public void insertUpdate(DocumentEvent e) {
+                dynamicSearch(search.getText());
+            }
+        });
+
         //Set the add button
         addButton.setBackground(new Color (29,233,182));
         addButton.setFont(new Font("Roboto Medium", Font.PLAIN, 30));
@@ -61,14 +100,12 @@ public class Window extends JFrame implements ActionListener {
         addButton.setBorderPainted(false);
         addButton.setFocusPainted(false);
         addButton.addActionListener(this);
-        mainPanel.add(addButton);
         animate2.add(addButton);
 
         //Set the buttonPanel / scrollPane
         bar.setPreferredSize(new Dimension(0, 0));
         bar.setUnitIncrement(16);
         buttonPanel.setBackground(new Color (238,238,238));
-        //buttonPanel.setPreferredSize(new Dimension(0, 500));
         buttonPanel.setLayout(buttonLayout);
         scrollPane.setBorder(null);
         mainPanel.add(scrollPane);
@@ -113,7 +150,9 @@ public class Window extends JFrame implements ActionListener {
             if (fileEntry.isDirectory()) {
                 initSongList();
             } else {
-                addSound(fileEntry.getName().replaceFirst("[.][^.]+$", ""), fileEntry.getName(), "song/" + fileEntry.getName());
+                Button songButton = addSound(fileEntry.getName().replaceFirst("[.][^.]+$", ""), fileEntry.getName(), "song/" + fileEntry.getName());
+                if (songButton.readExt().equals(".mp3"))
+                    convertMp3toWav(songButton);
             }
         }
     }
@@ -174,6 +213,18 @@ public class Window extends JFrame implements ActionListener {
             }
             catch (IOException ioe) {
                 System.out.println("Error while closing stream: " + ioe);
+            }
+        }
+    }
+
+    public void dynamicSearch(String searchEntry){
+        Component[] components = buttonPanel.getComponents();
+        for (Component comp : components) {
+            if (comp instanceof Button) {
+                Button button = (Button) comp;
+                button.setEnabled(true);
+                if (!button.getText().toLowerCase().contains(searchEntry.toLowerCase()) && !searchEntry.equals("Search"))
+                    button.setEnabled(false);
             }
         }
     }
