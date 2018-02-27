@@ -22,7 +22,7 @@ public class Window extends JFrame implements ActionListener {
     private GridBagConstraints addButtonLayoutConstraints = new GridBagConstraints();
     private JButton addButton = new JButton("+");
     private MaterialUIMovement animate = new MaterialUIMovement (new Color (224,224,224), 5, 1000 / 30);
-    private MaterialUIMovement animate2 = new MaterialUIMovement (new Color (189,189,189), 5, 1000 / 30);
+    private MaterialUIMovement animate2 = new MaterialUIMovement (new Color (0,191,165), 5, 1000 / 30);
 
     public Window(){
 
@@ -55,9 +55,9 @@ public class Window extends JFrame implements ActionListener {
         this.setContentPane(mainPanel);
 
         //Set the add button
-        addButton.setBackground(new Color (224,224,224));
+        addButton.setBackground(new Color (29,233,182));
         addButton.setFont(new Font("Roboto Medium", Font.PLAIN, 30));
-        addButton.setForeground(new Color (0,230,118));
+        addButton.setForeground(Color.WHITE);
         addButton.setBorderPainted(false);
         addButton.setFocusPainted(false);
         addButton.addActionListener(this);
