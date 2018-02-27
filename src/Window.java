@@ -28,7 +28,7 @@ public class Window extends JFrame implements ActionListener {
 
         //Set window properties
         this.setTitle("SoundBoard");
-        this.setSize(400, 500);
+        this.setSize(350, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         try {
@@ -56,9 +56,10 @@ public class Window extends JFrame implements ActionListener {
 
         //Set the add button
         addButton.setBackground(new Color (224,224,224));
-        addButton.setFont(new Font("Roboto", Font.BOLD, 30));
+        addButton.setFont(new Font("Roboto Medium", Font.PLAIN, 30));
         addButton.setForeground(new Color (0,230,118));
         addButton.setBorderPainted(false);
+        addButton.setFocusPainted(false);
         addButton.addActionListener(this);
         mainPanel.add(addButton);
         animate2.add(addButton);
@@ -67,8 +68,9 @@ public class Window extends JFrame implements ActionListener {
         bar.setPreferredSize(new Dimension(0, 0));
         bar.setUnitIncrement(16);
         buttonPanel.setBackground(new Color (238,238,238));
-        buttonPanel.setPreferredSize(new Dimension(0, 500));
+        //buttonPanel.setPreferredSize(new Dimension(0, 500));
         buttonPanel.setLayout(buttonLayout);
+        scrollPane.setBorder(null);
         mainPanel.add(scrollPane);
 
         //Set the window visible

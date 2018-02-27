@@ -13,9 +13,9 @@ public class Button extends JButton implements MouseListener {
 
     public Button(String displayName, String fileBasename, String filename){
         super(displayName);
-        this.setBackground(new Color(238,238,238));
-        this.setFont(new Font("Roboto", Font.PLAIN, 20));
-        this.setForeground(Color.BLACK);
+        this.setBackground(new Color(245,245,245));
+        this.setFont(new Font("Roboto Medium", Font.PLAIN, 20));
+        this.setForeground(new Color(33,33,33));
         this.filename = filename;
         this.fileBasename = fileBasename;
         this.ext = "." + filename.substring(filename.lastIndexOf(".") + 1);
