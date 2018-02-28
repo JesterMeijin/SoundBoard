@@ -107,7 +107,7 @@ public class Button extends JButton implements MouseListener {
                 System.out.println("Delete operation is failed.");
             this.setVisible(false);
             this.getParent().revalidate();
-            //this.getParent().remove(this);
+            this.getParent().remove(this);
         }
     }
 }

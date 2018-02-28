@@ -13,17 +13,18 @@ public class Window extends JFrame implements ActionListener {
     private JFileChooser fc = new JFileChooser();
     private FileNameExtensionFilter filter = new FileNameExtensionFilter("Audio files", "wav", "aiff", "au", "mid", "midi", "mp3");
     private JPanel mainPanel = new JPanel();
-    private JPanel buttonPanel = new JPanel();
     private JPanel topPanel = new JPanel();
-    private JTextField search = new JTextField("Search");
+    private JPanel buttonPanel = new JPanel();
     private JScrollPane scrollPane = new JScrollPane(buttonPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    private JScrollBar bar = scrollPane.getVerticalScrollBar();
     private GridBagLayout mainLayout = new GridBagLayout();
     private GridLayout buttonLayout = new GridLayout(0,1);
     private GridBagLayout topLayout = new GridBagLayout();
     private GridBagConstraints layoutConstraints = new GridBagConstraints();
     private GridBagConstraints topLayoutConstraints = new GridBagConstraints();
+    private Component[] components;
     private JButton addButton = new JButton("+");
+    private JTextField search = new JTextField("Search");
+    private JScrollBar bar = scrollPane.getVerticalScrollBar();
     private MaterialUIMovement animate = new MaterialUIMovement (new Color (224,224,224), 5, 1000 / 30);
     private MaterialUIMovement animate2 = new MaterialUIMovement (new Color (0,191,165), 5, 1000 / 30);
 
@@ -74,9 +75,11 @@ public class Window extends JFrame implements ActionListener {
         search.setForeground(Color.WHITE);
         search.addFocusListener(new FocusAdapter(){
             public void focusGained(FocusEvent e){
+                //cardLayout.next(cardPanel);
                 search.setText("");
             }
             public void focusLost(FocusEvent e){
+                //cardLayout.previous(cardPanel);
                 if (search.getText().equals(""))
                     search.setText("Search");
             }
@@ -141,6 +144,7 @@ public class Window extends JFrame implements ActionListener {
         buttonPanel.add(songButton);
         animate.add(songButton);
         buttonPanel.revalidate();
+        components = buttonPanel.getComponents();
         return songButton;
     }
 
@@ -204,12 +208,10 @@ public class Window extends JFrame implements ActionListener {
         finally {
             // close the streams using close method
             try {
-                if (fis != null) {
+                if (fis != null)
                     fis.close();
-                }
-                if (fos != null) {
+                if (fos != null)
                     fos.close();
-                }
             }
             catch (IOException ioe) {
                 System.out.println("Error while closing stream: " + ioe);
@@ -218,14 +220,15 @@ public class Window extends JFrame implements ActionListener {
     }
 
     public void dynamicSearch(String searchEntry){
-        Component[] components = buttonPanel.getComponents();
         for (Component comp : components) {
             if (comp instanceof Button) {
                 Button button = (Button) comp;
-                button.setEnabled(true);
+                buttonPanel.add(button);
+                buttonPanel.revalidate();
                 if (!button.getText().toLowerCase().contains(searchEntry.toLowerCase()) && !searchEntry.equals("Search"))
-                    button.setEnabled(false);
+                    buttonPanel.remove(button);
             }
         }
+        buttonPanel.repaint();
     }
 }

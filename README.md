@@ -34,7 +34,7 @@ After downloading the Soundboard and have JRE 8 or upper installed on your compu
 
 ## Version
 
-SoundBoard Alpha 0.5
+SoundBoard Alpha 0.5.1
 
 ## Authors
 
