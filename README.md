@@ -31,6 +31,8 @@ After downloading the Soundboard and have JRE 8 or upper installed on your compu
 
 * [IntelliJ IDEA](https://www.jetbrains.com/idea/) - The Java IDE
 * [Java SE 9.0.4](https://www.oracle.com/java/java9.html) - The JDK used
+* [JLayer](http://www.javazoom.net/javalayer/javalayer.html) - MP3 library for the Java Platform
+* [MaterialUI](https://github.com/atarw/material-ui-swing) - Material Design for Swing (Java)
 
 ## Version
 
