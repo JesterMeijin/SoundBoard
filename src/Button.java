@@ -7,43 +7,38 @@ import java.awt.event.MouseListener;
 
 public class Button extends JButton implements MouseListener {
     private String filename;
-    private String fileBasename;
     private String ext;
     private PlaySound sound;
 
-    public Button(String displayName, String fileBasename, String filename){
+    public Button(String displayName, String filename){
         super(displayName);
         this.setBackground(new Color(245,245,245));
         this.setFont(new Font("Roboto Medium", Font.PLAIN, 20));
         this.setForeground(new Color(33,33,33));
         this.filename = filename;
-        this.fileBasename = fileBasename;
         this.ext = "." + filename.substring(filename.lastIndexOf(".") + 1);
-        this.sound = new PlaySound(this.filename);
+        if (!this.ext.equals(".mp3"))
+            this.sound = new PlaySound(this.filename);
         this.addMouseListener(this);
     }
 
-    public void editFilename (String newFilename){
+    public void setFilename (String newFilename){
         this.filename = newFilename;
-    }
-
-    public void editFileBasename (String newFileBasename){
-        this.fileBasename = newFileBasename;
     }
 
     public String readFilename (){
         return this.filename;
     }
 
-    public String readFileBasename (){
-        return this.fileBasename;
+    public void setExt (String newExt){
+        this.ext = newExt;
     }
 
     public String readExt (){
         return this.ext;
     }
 
-    public void updateSong(){
+    public void setSound(){
         sound = new PlaySound(this.filename);
     }
 
@@ -74,31 +69,30 @@ public class Button extends JButton implements MouseListener {
         }
     }
 
-    public void renameSound(String filename){
+    private void renameSound(String filename){
         sound.stopSound();
         JFrame frame = new JFrame();
         File file = new File(filename);
 
-        String name = JOptionPane.showInputDialog(frame, "What's the new song name ?", "Rename Sound", JOptionPane.QUESTION_MESSAGE);
+        String name = JOptionPane.showInputDialog(frame, "What's the new sound name ?", "Rename Sound", JOptionPane.QUESTION_MESSAGE);
         if ((name != null) && (name.length() > 0)){
             this.setText(name);
-            this.filename = "song/" + name + ext;
-            this.fileBasename = name + ext;
+            this.filename = "sounds/" + name + ext;
 
-            if (file.renameTo(new File("song/" + name + ext)))
+            if (file.renameTo(new File("sounds/" + name + ext)))
                 System.out.println("Rename successful");
             else
                 System.out.println("Rename failed");
 
-            this.updateSong();
+            this.setSound();
         }
     }
 
-    public void removeSound(String filename){
+    private void removeSound(String filename){
         sound.stopSound();
         JFrame frame = new JFrame();
 
-        int input = JOptionPane.showConfirmDialog(frame, "Do you really want to remove the sound ?\n Warning : It will delete the sound from the song folder too !", " Delete Sound ", JOptionPane.YES_NO_OPTION);
+        int input = JOptionPane.showConfirmDialog(frame, "Do you really want to remove the sound ?\n Warning : It will delete the sound from the sounds folder too !", " Delete Sound ", JOptionPane.YES_NO_OPTION);
         if (input == JOptionPane.OK_OPTION){
             File file = new File(filename);
             if(file.delete())

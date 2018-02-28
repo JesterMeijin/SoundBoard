@@ -2,7 +2,7 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
-public class PlaySound {
+class PlaySound {
 
     private Clip clip;
 
@@ -15,11 +15,7 @@ public class PlaySound {
             clip = AudioSystem.getClip();
             // Open audio clip and load samples from the audio input stream.
             clip.open(audioIn);
-        } catch(UnsupportedAudioFileException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        } catch(LineUnavailableException e){
+        } catch(UnsupportedAudioFileException | LineUnavailableException | IOException e){
             e.printStackTrace();
         }
     }

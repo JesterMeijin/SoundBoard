@@ -6,7 +6,7 @@ This is a simple and free SoundBoard software created in Java !
 ## Features
 + Can play **.mp3** | **.wav** | **.aiff** | **.au** | **.mid** | **.midi** audio files
 + Add sounds directly with the **"+"** button
-+ Add sounds directly into the "song" folder (created at launch if not exists)
++ Add sounds directly into the "sounds" folder (created at launch if not exists)
 + Search the sound you want
 + **Left click** : Play sound, press again to stop playing
 + **Right click** : Rename the selected sound
@@ -34,7 +34,7 @@ After downloading the Soundboard and have JRE 8 or upper installed on your compu
 
 ## Version
 
-SoundBoard Alpha 0.5.1
+SoundBoard Beta 0.1
 
 ## Authors
 
