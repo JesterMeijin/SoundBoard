@@ -15,8 +15,6 @@ class Window extends JFrame implements ActionListener {
     Window(){
 
         /* Initializes variables */
-        fc = new JFileChooser();
-        filter = new FileNameExtensionFilter("Audio files", "wav", "aiff", "au", "mid", "midi", "mp3");
         JPanel topPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(buttonPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -30,6 +28,9 @@ class Window extends JFrame implements ActionListener {
         JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
         MaterialUIMovement animate = new MaterialUIMovement (new Color (224,224,224), 5, 1000 / 30);
         MaterialUIMovement animate2 = new MaterialUIMovement (new Color (0,191,165), 5, 1000 / 30);
+
+        fc = new JFileChooser();
+        filter = new FileNameExtensionFilter("Audio files", "wav", "aiff", "au", "mid", "midi", "mp3");
         sound = new Sound(buttonPanel, search, animate);
 
         /* Sets Window properties */
