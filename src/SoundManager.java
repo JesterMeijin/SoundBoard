@@ -1,18 +1,17 @@
 import javazoom.jl.converter.Converter;
 import javazoom.jl.decoder.JavaLayerException;
 import mdlaf.MaterialUIMovement;
-
 import javax.swing.*;
 import java.io.*;
 import java.util.Objects;
 
-class Sound {
+class SoundManager {
 
     private final JPanel buttonPanel;
-    private final Search search;
+    private final SearchEngine search;
     private final MaterialUIMovement animate;
 
-    Sound(JPanel buttonPanel, Search search, MaterialUIMovement animate){
+    SoundManager(JPanel buttonPanel, SearchEngine search, MaterialUIMovement animate){
         this.buttonPanel = buttonPanel;
         this.search = search;
         this.animate = animate;
@@ -24,15 +23,15 @@ class Sound {
             if (fileEntry.isDirectory()) {
                 initSoundList();
             } else {
-                Button soundButton = addSound(fileEntry.getName().replaceFirst("[.][^.]+$", ""), "sounds/" + fileEntry.getName());
+                SoundButton soundButton = addSound(fileEntry.getName().replaceFirst("[.][^.]+$", ""), "sounds/" + fileEntry.getName());
                 if (soundButton.readExt().equals(".mp3"))
                     convertMp3toWav(soundButton);
             }
         }
     }
 
-    public Button addSound(String displayName, String filename){
-        Button soundButton = new Button(displayName, filename);
+    public SoundButton addSound(String displayName, String filename){
+        SoundButton soundButton = new SoundButton(displayName, filename);
         buttonPanel.add(soundButton);
         animate.add(soundButton);
         buttonPanel.revalidate();
@@ -40,7 +39,7 @@ class Sound {
         return soundButton;
     }
 
-    public void convertMp3toWav(Button soundButton){
+    public void convertMp3toWav(SoundButton soundButton){
         try {
             String newFilename;
             File file = new File(soundButton.readFilename());
@@ -53,7 +52,7 @@ class Sound {
                 System.out.println("Delete operation is failed.");
             soundButton.setFilename(newFilename);
             soundButton.setExt(".wav");
-            soundButton.setSound();
+            soundButton.rebuildSoundPlayer();
         } catch (JavaLayerException e){
             e.printStackTrace();
         }

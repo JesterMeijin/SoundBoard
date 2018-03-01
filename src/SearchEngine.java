@@ -5,12 +5,12 @@ import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-class Search extends JTextField implements DocumentListener, FocusListener {
+class SearchEngine extends JTextField implements DocumentListener, FocusListener {
 
     private Component[] components;
     private final JPanel buttonPanel;
 
-    public Search(String text, JPanel buttonPanel){
+    public SearchEngine(String text, JPanel buttonPanel){
         super(text);
         this.buttonPanel = buttonPanel;
         this.setBorder(null);
@@ -22,35 +22,40 @@ class Search extends JTextField implements DocumentListener, FocusListener {
         this.getDocument().addDocumentListener(this);
     }
 
-    public void setComponents(Component[] newComponents){
-        components = newComponents;
-    }
-
+    @Override
     public void focusGained(FocusEvent e){
         this.setText("");
     }
 
+    @Override
     public void focusLost(FocusEvent e){
         if (this.getText().equals(""))
             this.setText("Search");
     }
 
+    @Override
     public void changedUpdate(DocumentEvent e) {
         dynamicSearch(this.getText());
     }
 
+    @Override
     public void removeUpdate(DocumentEvent e) {
         dynamicSearch(this.getText());
     }
 
+    @Override
     public void insertUpdate(DocumentEvent e) {
         dynamicSearch(this.getText());
     }
 
+    public void setComponents(Component[] newComponents){
+        components = newComponents;
+    }
+
     private void dynamicSearch(String searchEntry){
         for (Component comp : components) {
-            if (comp instanceof Button) {
-                Button button = (Button) comp;
+            if (comp instanceof SoundButton) {
+                SoundButton button = (SoundButton) comp;
                 buttonPanel.add(button);
                 buttonPanel.revalidate();
                 if (!button.getText().toLowerCase().contains(searchEntry.toLowerCase()) && !searchEntry.equals("Search"))

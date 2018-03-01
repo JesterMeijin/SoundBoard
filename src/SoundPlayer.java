@@ -2,11 +2,11 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
-class PlaySound {
+class SoundPlayer {
 
     private Clip clip;
 
-    public PlaySound (String filename) {
+    SoundPlayer(String filename) {
         try {
             // Open an audio input stream.
             File soundFile = new File(filename); //you could also get the sound file with an URL
@@ -20,8 +20,8 @@ class PlaySound {
         }
     }
 
-    public Clip readClip() {
-        return this.clip;
+    public boolean isRunning() {
+        return this.clip.isRunning();
     }
 
     public void stopSound(){
