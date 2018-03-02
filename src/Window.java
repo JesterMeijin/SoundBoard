@@ -1,6 +1,7 @@
 import mdlaf.*;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.*;
 import java.io.*;
@@ -24,6 +25,7 @@ class Window extends JFrame implements ActionListener {
         GridBagConstraints layoutConstraints = new GridBagConstraints();
         GridBagConstraints topLayoutConstraints = new GridBagConstraints();
         JButton addButton = new JButton("+");
+        JLabel searchIcon = new JLabel(new ImageIcon(getClass().getResource("search.png")));
         SearchEngine search = new SearchEngine("Search", buttonPanel);
         JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
         MaterialUIMovement animate = new MaterialUIMovement (new Color (224,224,224), 5, 1000 / 30);
@@ -63,13 +65,17 @@ class Window extends JFrame implements ActionListener {
         /* Sets topPanel properties */
         topPanel.setLayout(topLayout);
         topPanel.setBackground(new Color (29,233,182));
+        topPanel.add(searchIcon);
         topPanel.add(search);
         topPanel.add(addButton);
         this.add(topPanel);
 
+        /* Sets searchIcon properties */
+        searchIcon.setBorder(new EmptyBorder(0, 10, 0, 10));
+
         /* Sets addButton properties */
         addButton.setBackground(new Color (29,233,182));
-        addButton.setFont(new Font("Roboto Medium", Font.PLAIN, 30));
+        addButton.setFont(new Font("Roboto Medium", Font.PLAIN, 40));
         addButton.setForeground(Color.WHITE);
         addButton.setBorderPainted(false);
         addButton.setFocusPainted(false);

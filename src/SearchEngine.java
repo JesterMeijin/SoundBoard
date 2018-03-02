@@ -10,12 +10,12 @@ class SearchEngine extends JTextField implements DocumentListener, FocusListener
     private Component[] components;
     private final JPanel buttonPanel;
 
-    public SearchEngine(String text, JPanel buttonPanel){
+    SearchEngine(String text, JPanel buttonPanel){
         super(text);
         this.buttonPanel = buttonPanel;
         this.setBorder(null);
         this.setBackground(new Color (29,233,182));
-        this.setFont(new Font("Roboto Medium",Font.PLAIN, 20));
+        this.setFont(new Font("Roboto Medium",Font.PLAIN, 25));
         this.setHorizontalAlignment(JTextField.CENTER);
         this.setForeground(Color.WHITE);
         this.addFocusListener(this);
