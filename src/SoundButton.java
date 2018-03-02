@@ -14,14 +14,14 @@ public class SoundButton extends JButton implements MouseListener {
     SoundButton(SoundManager soundManager, String displayName, String filename){
         super(displayName);
         this.soundManager = soundManager;
-        this.setBackground(new Color(245,245,245));
-        this.setFont(new Font("Roboto Medium", Font.PLAIN, 20));
-        this.setForeground(new Color(33,33,33));
         this.filename = filename;
         this.ext = "." + filename.substring(filename.lastIndexOf(".") + 1);
         if (!this.ext.equals(".mp3"))
             this.soundPlayer = new SoundPlayer(this.filename);
-        this.addMouseListener(this);
+        setBackground(new Color(245,245,245));
+        setFont(new Font("Roboto Medium", Font.PLAIN, 20));
+        setForeground(new Color(33,33,33));
+        addMouseListener(this);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class SoundButton extends JButton implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (this.isEnabled()){
+        if (isEnabled()){
             if (SwingUtilities.isLeftMouseButton(e))
                 playSound();
             if (SwingUtilities.isRightMouseButton(e))
@@ -53,27 +53,27 @@ public class SoundButton extends JButton implements MouseListener {
     }
 
     public void setFilename (String newFilename){
-        this.filename = newFilename;
+        filename = newFilename;
     }
 
     public String readFilename (){
-        return this.filename;
+        return filename;
     }
 
     public void setExt (String newExt){
-        this.ext = newExt;
+        ext = newExt;
     }
 
     public String getExt (){
-        return this.ext;
+        return ext;
     }
 
     public String readExt (){
-        return this.ext;
+        return ext;
     }
 
     public void rebuildSoundPlayer(){
-        soundPlayer = new SoundPlayer(this.filename);
+        soundPlayer = new SoundPlayer(filename);
     }
 
     public SoundPlayer getSoundPlayer() {

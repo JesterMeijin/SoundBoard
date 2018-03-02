@@ -8,45 +8,45 @@ import java.awt.event.FocusListener;
 class SearchEngine extends JTextField implements DocumentListener, FocusListener {
 
     private SoundManager soundManager;
-    private final JPanel buttonPanel;
+    private JPanel buttonPanel;
 
     SearchEngine(String text, JPanel buttonPanel, SoundManager soundManager){
         super(text);
         this.soundManager = soundManager;
         this.buttonPanel = buttonPanel;
-        this.setBorder(null);
-        this.setBackground(new Color (29,233,182));
-        this.setFont(new Font("Roboto Medium",Font.PLAIN, 25));
-        this.setHorizontalAlignment(JTextField.CENTER);
-        this.setForeground(Color.WHITE);
-        this.addFocusListener(this);
-        this.getDocument().addDocumentListener(this);
+        setBorder(null);
+        setBackground(new Color (29,233,182));
+        setFont(new Font("Roboto Medium",Font.PLAIN, 25));
+        setHorizontalAlignment(JTextField.CENTER);
+        setForeground(Color.WHITE);
+        addFocusListener(this);
+        getDocument().addDocumentListener(this);
     }
 
     @Override
     public void focusGained(FocusEvent e){
-        this.setText("");
+        setText("");
     }
 
     @Override
     public void focusLost(FocusEvent e){
-        if (this.getText().equals(""))
-            this.setText("Search");
+        if (getText().equals(""))
+            setText("Search");
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        dynamicSearch(this.getText());
+        dynamicSearch(getText());
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        dynamicSearch(this.getText());
+        dynamicSearch(getText());
     }
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        dynamicSearch(this.getText());
+        dynamicSearch(getText());
     }
 
     private void dynamicSearch(String searchEntry){

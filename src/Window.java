@@ -37,12 +37,12 @@ class Window extends JFrame implements ActionListener {
         SearchEngine search = new SearchEngine("Search", buttonPanel, soundManager);
 
         /* Sets Window properties */
-        this.setTitle("SoundBoard");
-        this.setSize(350, 500);
-        this.setLayout(mainLayout);
-        this.setLocationRelativeTo(null);
-        this.setBackground(new Color (238,238,238));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("SoundBoard");
+        setSize(350, 500);
+        setLayout(mainLayout);
+        setLocationRelativeTo(null);
+        setBackground(new Color (238,238,238));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         try {
             UIManager.setLookAndFeel (new MaterialLookAndFeel ());
         }
@@ -69,7 +69,7 @@ class Window extends JFrame implements ActionListener {
         topPanel.add(searchIcon);
         topPanel.add(search);
         topPanel.add(addButton);
-        this.add(topPanel);
+        add(topPanel);
 
         /* Sets searchIcon properties */
         searchIcon.setBorder(new EmptyBorder(0, 10, 0, 10));
@@ -89,10 +89,10 @@ class Window extends JFrame implements ActionListener {
         buttonPanel.setBackground(new Color (238,238,238));
         buttonPanel.setLayout(buttonLayout);
         scrollPane.setBorder(null);
-        this.add(scrollPane);
+        add(scrollPane);
 
         /* Sets the window visible */
-        this.setVisible(true);
+        setVisible(true);
 
         /* Initializes the SoundBoard's list*/
         soundManager.initSoundList();
