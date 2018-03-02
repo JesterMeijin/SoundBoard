@@ -10,9 +10,9 @@ class SearchEngine extends JTextField implements DocumentListener, FocusListener
     private SoundManager soundManager;
     private JPanel buttonPanel;
 
-    SearchEngine(String text, JPanel buttonPanel, SoundManager soundManager){
+    SearchEngine(JPanel buttonPanel, SoundManager soundManager){
 
-        super(text);
+        super("Search");
 
         this.soundManager = soundManager;
         this.buttonPanel = buttonPanel;

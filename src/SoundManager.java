@@ -9,9 +9,9 @@ import java.util.Objects;
 
 class SoundManager {
 
-    private final JPanel buttonPanel;
-    private final MaterialUIMovement animate;
+    private JPanel buttonPanel;
     private List<SoundButton> soundButtons;
+    private final MaterialUIMovement animate;
 
     SoundManager(JPanel buttonPanel, MaterialUIMovement animate){
 

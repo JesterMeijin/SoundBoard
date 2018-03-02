@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

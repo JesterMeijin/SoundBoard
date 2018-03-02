@@ -9,9 +9,9 @@ import java.io.*;
 
 class Window extends JFrame implements ActionListener {
 
+    private SoundManager soundManager;
     private final JFileChooser fc;
     private final FileNameExtensionFilter filter;
-    private final SoundManager soundManager;
 
     Window(){
 
@@ -34,7 +34,7 @@ class Window extends JFrame implements ActionListener {
         filter = new FileNameExtensionFilter("Audio files", "wav", "aiff", "au", "mid", "midi", "mp3");
         soundManager = new SoundManager(buttonPanel, animate);
 
-        SearchEngine search = new SearchEngine("Search", buttonPanel, soundManager);
+        SearchEngine search = new SearchEngine(buttonPanel, soundManager);
 
         /* Sets Window properties */
         setTitle("SoundBoard");
