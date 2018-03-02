@@ -14,13 +14,16 @@ class SoundManager {
     private List<SoundButton> soundButtons;
 
     SoundManager(JPanel buttonPanel, MaterialUIMovement animate){
+
         this.buttonPanel = buttonPanel;
         this.animate = animate;
         this.soundButtons = new ArrayList<>();
     }
 
     public void initSoundList() {
+
         File folder = new File("sounds");
+
         for (File fileEntry : Objects.requireNonNull(folder.listFiles())) {
             if (fileEntry.isDirectory()) {
                 initSoundList();
@@ -33,20 +36,25 @@ class SoundManager {
     }
 
     public SoundButton addSound(String displayName, String filename){
+
         SoundButton soundButton = new SoundButton(this, displayName, filename);
+
         buttonPanel.add(soundButton);
         animate.add(soundButton);
         buttonPanel.revalidate();
         soundButtons.add(soundButton);
+
         return soundButton;
     }
 
     public void renameSound(String filename, SoundButton soundButton){
+
         soundButton.getSoundPlayer().stopSound();
+
         JFrame frame = new JFrame();
         File file = new File(filename);
-
         String name = JOptionPane.showInputDialog(frame, "What's the new soundPlayer name ?", "Rename SoundManager", JOptionPane.QUESTION_MESSAGE);
+
         if ((name != null) && (name.length() > 0)){
             soundButton.setText(name);
             soundButton.setFilename("sounds/" + name + soundButton.getExt());
@@ -61,16 +69,20 @@ class SoundManager {
     }
 
     public void removeSound(String filename, SoundButton soundButton){
-        soundButton.getSoundPlayer().stopSound();
-        JFrame frame = new JFrame();
 
+        soundButton.getSoundPlayer().stopSound();
+
+        JFrame frame = new JFrame();
         int input = JOptionPane.showConfirmDialog(frame, "Do you really want to remove the soundPlayer ?\n Warning : It will delete the soundPlayer from the sounds folder too !", " Delete SoundManager ", JOptionPane.YES_NO_OPTION);
+
         if (input == JOptionPane.OK_OPTION){
             File file = new File(filename);
+
             if(file.delete())
                 System.out.println(file.getName() + " is deleted!");
             else
                 System.out.println("Delete operation is failed.");
+
             soundButtons.remove(soundButton);
             soundButton.setVisible(false);
             soundButton.getParent().revalidate();
@@ -83,19 +95,23 @@ class SoundManager {
     }
 
     public void convertMp3toWav(SoundButton soundButton){
+
         try {
             String newFilename;
             File file = new File(soundButton.readFilename());
             Converter converter = new Converter();
             newFilename = "sounds/" + file.getName().replaceFirst("[.][^.]+$", ".wav");
             converter.convert(soundButton.readFilename(), newFilename);
+
             if (file.delete())
                 System.out.println(file.getName() + " is deleted!");
             else
                 System.out.println("Delete operation is failed.");
+
             soundButton.setFilename(newFilename);
             soundButton.setExt(".wav");
             soundButton.rebuildSoundPlayer();
+
         } catch (JavaLayerException e){
             e.printStackTrace();
         }

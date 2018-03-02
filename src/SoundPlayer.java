@@ -7,6 +7,7 @@ class SoundPlayer {
     private Clip clip;
 
     SoundPlayer(String filename) {
+
         try {
             // Open an audio input stream.
             File soundFile = new File(filename); //you could also get the sound file with an URL
@@ -21,7 +22,7 @@ class SoundPlayer {
     }
 
     public boolean isRunning() {
-        return this.clip.isRunning();
+        return clip.isRunning();
     }
 
     public void stopSound(){

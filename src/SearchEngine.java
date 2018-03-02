@@ -11,9 +11,12 @@ class SearchEngine extends JTextField implements DocumentListener, FocusListener
     private JPanel buttonPanel;
 
     SearchEngine(String text, JPanel buttonPanel, SoundManager soundManager){
+
         super(text);
+
         this.soundManager = soundManager;
         this.buttonPanel = buttonPanel;
+
         setBorder(null);
         setBackground(new Color (29,233,182));
         setFont(new Font("Roboto Medium",Font.PLAIN, 25));
@@ -50,13 +53,14 @@ class SearchEngine extends JTextField implements DocumentListener, FocusListener
     }
 
     private void dynamicSearch(String searchEntry){
-        for (SoundButton soundButton : soundManager.getSoundButtons()) {
-            buttonPanel.add(soundButton);
-            buttonPanel.revalidate();
+
+        for (SoundButton soundButton : soundManager.getSoundButtons())
             if (!soundButton.getText().toLowerCase().contains(searchEntry.toLowerCase()) && !searchEntry.equals("Search"))
                 buttonPanel.remove(soundButton);
+            else
+                buttonPanel.add(soundButton);
 
-        }
+        buttonPanel.revalidate();
         buttonPanel.repaint();
     }
 }

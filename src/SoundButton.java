@@ -6,21 +6,26 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class SoundButton extends JButton implements MouseListener {
+
     private String filename;
     private String ext;
     private SoundPlayer soundPlayer;
     private SoundManager soundManager;
 
     SoundButton(SoundManager soundManager, String displayName, String filename){
+
         super(displayName);
+
         this.soundManager = soundManager;
         this.filename = filename;
         this.ext = "." + filename.substring(filename.lastIndexOf(".") + 1);
         if (!this.ext.equals(".mp3"))
             this.soundPlayer = new SoundPlayer(this.filename);
+
         setBackground(new Color(245,245,245));
         setFont(new Font("Roboto Medium", Font.PLAIN, 20));
         setForeground(new Color(33,33,33));
+
         addMouseListener(this);
     }
 
@@ -42,6 +47,7 @@ public class SoundButton extends JButton implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
         if (isEnabled()){
             if (SwingUtilities.isLeftMouseButton(e))
                 playSound();
@@ -81,6 +87,7 @@ public class SoundButton extends JButton implements MouseListener {
     }
 
     private void playSound(){
+
         if (soundPlayer.isRunning())
             soundPlayer.stopSound();
         else

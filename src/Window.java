@@ -100,13 +100,16 @@ class Window extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
+
         fc.setFileFilter(filter);
         int returnVal = fc.showOpenDialog(this);
 
         if(returnVal == JFileChooser.APPROVE_OPTION){
+
             System.out.println("You chose to open this file: " + fc.getSelectedFile().getName());
             boolean checkMP3 = new File("sounds/", fc.getSelectedFile().getName().replaceFirst("[.][^.]+$", ".wav")).exists();
             boolean check = new File("sounds/", fc.getSelectedFile().getName()).exists();
+
             if (!check && !checkMP3) {
                 SoundButton soundButton = soundManager.addSound(fc.getSelectedFile().getName().replaceFirst("[.][^.]+$", ""), fc.getSelectedFile().getAbsolutePath());
                 soundManager.CopyBinaryFileWithStreams( fc.getSelectedFile().getAbsolutePath(), fc.getSelectedFile().getName());
