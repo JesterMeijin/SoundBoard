@@ -26,14 +26,15 @@ class Window extends JFrame implements ActionListener {
         GridBagConstraints topLayoutConstraints = new GridBagConstraints();
         JButton addButton = new JButton("+");
         JLabel searchIcon = new JLabel(new ImageIcon(getClass().getResource("search.png")));
-        SearchEngine search = new SearchEngine("Search", buttonPanel);
         JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
         MaterialUIMovement animate = new MaterialUIMovement (new Color (224,224,224), 5, 1000 / 30);
         MaterialUIMovement animate2 = new MaterialUIMovement (new Color (0,191,165), 5, 1000 / 30);
 
         fc = new JFileChooser();
         filter = new FileNameExtensionFilter("Audio files", "wav", "aiff", "au", "mid", "midi", "mp3");
-        soundManager = new SoundManager(buttonPanel, search, animate);
+        soundManager = new SoundManager(buttonPanel, animate);
+
+        SearchEngine search = new SearchEngine("Search", buttonPanel, soundManager);
 
         /* Sets Window properties */
         this.setTitle("SoundBoard");
@@ -97,6 +98,7 @@ class Window extends JFrame implements ActionListener {
         soundManager.initSoundList();
     }
 
+    @Override
     public void actionPerformed(ActionEvent arg0) {
         fc.setFileFilter(filter);
         int returnVal = fc.showOpenDialog(this);

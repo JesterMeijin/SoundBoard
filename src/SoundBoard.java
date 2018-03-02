@@ -1,6 +1,6 @@
 import java.io.File;
 
-class Main {
+class SoundBoard {
 
     public static void main(String[] args) {
         File file = new File("sounds/");

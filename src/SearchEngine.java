@@ -7,11 +7,12 @@ import java.awt.event.FocusListener;
 
 class SearchEngine extends JTextField implements DocumentListener, FocusListener {
 
-    private Component[] components;
+    private SoundManager soundManager;
     private final JPanel buttonPanel;
 
-    SearchEngine(String text, JPanel buttonPanel){
+    SearchEngine(String text, JPanel buttonPanel, SoundManager soundManager){
         super(text);
+        this.soundManager = soundManager;
         this.buttonPanel = buttonPanel;
         this.setBorder(null);
         this.setBackground(new Color (29,233,182));
@@ -48,19 +49,13 @@ class SearchEngine extends JTextField implements DocumentListener, FocusListener
         dynamicSearch(this.getText());
     }
 
-    public void setComponents(Component[] newComponents){
-        components = newComponents;
-    }
-
     private void dynamicSearch(String searchEntry){
-        for (Component comp : components) {
-            if (comp instanceof SoundButton) {
-                SoundButton button = (SoundButton) comp;
-                buttonPanel.add(button);
-                buttonPanel.revalidate();
-                if (!button.getText().toLowerCase().contains(searchEntry.toLowerCase()) && !searchEntry.equals("Search"))
-                    buttonPanel.remove(button);
-            }
+        for (SoundButton soundButton : soundManager.getSoundButtons()) {
+            buttonPanel.add(soundButton);
+            buttonPanel.revalidate();
+            if (!soundButton.getText().toLowerCase().contains(searchEntry.toLowerCase()) && !searchEntry.equals("Search"))
+                buttonPanel.remove(soundButton);
+
         }
         buttonPanel.repaint();
     }

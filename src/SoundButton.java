@@ -9,9 +9,11 @@ public class SoundButton extends JButton implements MouseListener {
     private String filename;
     private String ext;
     private SoundPlayer soundPlayer;
+    private SoundManager soundManager;
 
-    SoundButton(String displayName, String filename){
+    SoundButton(SoundManager soundManager, String displayName, String filename){
         super(displayName);
+        this.soundManager = soundManager;
         this.setBackground(new Color(245,245,245));
         this.setFont(new Font("Roboto Medium", Font.PLAIN, 20));
         this.setForeground(new Color(33,33,33));
@@ -44,9 +46,9 @@ public class SoundButton extends JButton implements MouseListener {
             if (SwingUtilities.isLeftMouseButton(e))
                 playSound();
             if (SwingUtilities.isRightMouseButton(e))
-                renameSound(filename);
+                soundManager.renameSound(filename, this);
             if (SwingUtilities.isMiddleMouseButton(e))
-                removeSound(filename);
+                soundManager.removeSound(filename, this);
         }
     }
 
@@ -62,6 +64,10 @@ public class SoundButton extends JButton implements MouseListener {
         this.ext = newExt;
     }
 
+    public String getExt (){
+        return this.ext;
+    }
+
     public String readExt (){
         return this.ext;
     }
@@ -70,46 +76,14 @@ public class SoundButton extends JButton implements MouseListener {
         soundPlayer = new SoundPlayer(this.filename);
     }
 
+    public SoundPlayer getSoundPlayer() {
+        return soundPlayer;
+    }
+
     private void playSound(){
         if (soundPlayer.isRunning())
             soundPlayer.stopSound();
         else
             soundPlayer.startSound();
-    }
-
-    private void renameSound(String filename){
-        soundPlayer.stopSound();
-        JFrame frame = new JFrame();
-        File file = new File(filename);
-
-        String name = JOptionPane.showInputDialog(frame, "What's the new soundPlayer name ?", "Rename SoundManager", JOptionPane.QUESTION_MESSAGE);
-        if ((name != null) && (name.length() > 0)){
-            this.setText(name);
-            this.filename = "sounds/" + name + ext;
-
-            if (file.renameTo(new File("sounds/" + name + ext)))
-                System.out.println("Rename successful");
-            else
-                System.out.println("Rename failed");
-
-            this.rebuildSoundPlayer();
-        }
-    }
-
-    private void removeSound(String filename){
-        soundPlayer.stopSound();
-        JFrame frame = new JFrame();
-
-        int input = JOptionPane.showConfirmDialog(frame, "Do you really want to remove the soundPlayer ?\n Warning : It will delete the soundPlayer from the sounds folder too !", " Delete SoundManager ", JOptionPane.YES_NO_OPTION);
-        if (input == JOptionPane.OK_OPTION){
-            File file = new File(filename);
-            if(file.delete())
-                System.out.println(file.getName() + " is deleted!");
-            else
-                System.out.println("Delete operation is failed.");
-            this.setVisible(false);
-            this.getParent().revalidate();
-            this.getParent().remove(this);
-        }
     }
 }
