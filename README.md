@@ -38,10 +38,6 @@ After downloading the Soundboard and have JRE 8 or upper installed on your compu
 
 SoundBoard Beta 0.4
 
-## Authors
-
-* **Yann G** - *Initial work* - [JesterMeijin](https://github.com/JesterMeijin)
-
 ## License
 
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details
