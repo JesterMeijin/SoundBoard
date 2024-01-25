@@ -40,7 +40,7 @@ SoundBoard Beta 0.4
 
 ## Authors
 
-* **Yann G** - *Initial work* - [Je5ter](https://github.com/Je5ter)
+* **Yann G** - *Initial work* - [Je5ter](https://github.com/JesterMeijin)
 
 ## License
 
